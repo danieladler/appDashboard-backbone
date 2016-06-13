@@ -12,6 +12,12 @@
   </body>
 </html>
 
+<script type="text/template" id="app-template">
+  <div>
+    <h1> AppName: <%= name %> </h1>
+  </div>
+</script>
+
 <script>
   // Models
   var AppType = Backbone.Model.extend({
@@ -37,14 +43,42 @@
 
   // Collections
   var AppColl = Backbone.Collection.extend({
+    url : '/apps',
     model: AppType
+  });
+
+  // Views
+    // individual app item view
+  var AppView = Backbone.View.extend({
+      className: "app-div",
+
+      template: _.template($("#app-template").html()),
+
+      events: {
+        // TODO: add event listeners for interactions with individual apps
+          // click on div
+          // populate <input />
+          // select from dropdown
+
+          //NB: add functions below for these events as well!
+      },
+
+      render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        return this;
+      },
   });
 
   // instantiate the apps
   var jira = new AppType({name: "Jira", url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
   var conf = new AppType({name: "Confluence", url: "https://modusoperandi.atlassian.net/wiki/"});
   var hip  = new AppType({name: "HipChat", url: "https://modop.hipchat.com/home"});
+
   // instantiate the collection of apps
   var appTypes = new AppColl([jira, conf, hip]);
+
+  // instantiate individual view for one appType
+  var jView = new AppView({model: jira, el: "#app-container"});
+  jView.render();
 
 </script>
