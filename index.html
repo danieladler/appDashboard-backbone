@@ -13,6 +13,7 @@
 </html>
 
 <script>
+  // Models
   var AppType = Backbone.Model.extend({
     defaults: {
       name: "",
@@ -24,7 +25,7 @@
       console.log(this.attributes.name, "has been initialized");
       this.on('invalid', function(model, error){
         console.log(error);
-      }); 
+      });
     },
     // validations
     validate: function(attrs,opts){
@@ -34,9 +35,16 @@
     }
   });
 
+  // Collections
+  var AppColl = Backbone.Collection.extend({
+    model: AppType
+  });
+
   // instantiate the apps
   var jira = new AppType({name: "Jira", url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
   var conf = new AppType({name: "Confluence", url: "https://modusoperandi.atlassian.net/wiki/"});
   var hip  = new AppType({name: "HipChat", url: "https://modop.hipchat.com/home"});
+  // instantiate the collection of apps
+  var appTypes = new AppColl([jira, conf, hip]);
 
 </script>
