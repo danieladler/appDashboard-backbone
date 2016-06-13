@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>appDash - backbone</title>
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script src="./js/lib/underscore.js"></script>
+    <script src="./js/lib/backbone.js"></script>
+    <div id="app-container">here</div>
+  </body>
+</html>
+
+<script>
+  var AppType = Backbone.Model.extend({
+    url : "/apps",
+    defaults: {
+      name: "",
+      url: "",
+      type: "",
+    },
+    // listeners are in initalize
+    initialize: function(){
+
+    },
+    // validations
+    validate: function(attrs,opts){
+      if(attrs.name === "" || attrs.url === ""){
+        return "Name and URL cannot be blank"
+      }
+    }
+  });
+
+  // instantiate
+  var jira = new AppType({name: "Jira", url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
+  var conf = new AppType({name: "Confluence", url: "https://modusoperandi.atlassian.net/wiki/"});
+  var hip  = new AppType({name: "HipChat", url: "https://modop.hipchat.com/home"});
+
+</script>
