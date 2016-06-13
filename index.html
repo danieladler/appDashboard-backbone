@@ -14,7 +14,6 @@
 
 <script>
   var AppType = Backbone.Model.extend({
-    url : "/apps",
     defaults: {
       name: "",
       url: "",
@@ -22,17 +21,20 @@
     },
     // listeners are in initalize
     initialize: function(){
-
+      console.log(this.attributes.name, "has been initialized");
+      this.on('invalid', function(model, error){
+        console.log(error);
+      }); 
     },
     // validations
     validate: function(attrs,opts){
       if(attrs.name === "" || attrs.url === ""){
-        return "Name and URL cannot be blank"
+        return "This field cannot be blank"
       }
     }
   });
 
-  // instantiate
+  // instantiate the apps
   var jira = new AppType({name: "Jira", url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
   var conf = new AppType({name: "Confluence", url: "https://modusoperandi.atlassian.net/wiki/"});
   var hip  = new AppType({name: "HipChat", url: "https://modop.hipchat.com/home"});
