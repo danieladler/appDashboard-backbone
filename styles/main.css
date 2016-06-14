@@ -1,0 +1,16 @@
+
+
+.app-div {
+  background-color: hsl(0, 0%, 75%);
+  margin: 20px;
+  width: 200px;
+  height: 200px;
+}
+
+.app-div .app-div-content {
+  padding: 10px;
+}
+
+.app-div .app-name {
+  margin: 0px;
+}

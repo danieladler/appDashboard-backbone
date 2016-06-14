@@ -8,12 +8,17 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
     <script src="./js/lib/underscore.js"></script>
     <script src="./js/lib/backbone.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles/main.css">
     <div id="app-container"></div>
   </body>
 </html>
 
 <script type="text/template" id="app-template">
-  <h2> <%= name %> </h2>
+  <div class="app-div-content">
+    <h2 class="app-name">  <%= name %> </h2>
+    <p class="app-type">  <%= type %> </p>
+    <p class="app-descr"> <%= description %> </p>
+  </div>
 </script>
 
 <script>
@@ -23,6 +28,7 @@
       name: "",
       url: "",
       type: "",
+      description: ""
     },
     // listeners are in initalize
     initialize: function(){
