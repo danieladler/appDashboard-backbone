@@ -2,13 +2,18 @@
   font-family: "Helvetica";
 }
 
+header h1 {
+  text-align: center;
+  font-weight: bold;
+}
+
 .app-block-wrapper .app-block {
   display: block;
   background-color: hsl(0, 0%, 75%);
-  margin: 20px;
+  margin:  20px;
   padding: 10px;
-  width: 200px;
-  height: 200px;
+  width:   300px;
+  height:  300px;
 }
 
 .app-block-wrapper a.app-block {
@@ -18,4 +23,5 @@
 .app-name {
   margin: 0px;
   text-align: center;
+  font-weight: 500;
 }

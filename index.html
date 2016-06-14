@@ -8,8 +8,13 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
     <script src="./js/lib/underscore.js"></script>
     <script src="./js/lib/backbone.js"></script>
+    <script src="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.css">
     <link rel="stylesheet" type="text/css" href="./styles/main.css">
-    <div id="app-container"></div>
+    <div id="app-container">
+      <header><h1>ModOp App Dashboard</h1><header>
+      <div id="dash-view"></div>
+    </div>
   </body>
 </html>
 
@@ -64,7 +69,7 @@
   // Views
     // individual app item view
   var AppView = Backbone.View.extend({
-      className: "app-block-wrapper",
+      className: "app-block-wrapper small-12 medium-6 large-4 columns",
       // TODO: add Foundation grid styling to this class name so that
       // each app block fits into the grid as it is instantiated
 
@@ -98,7 +103,9 @@
 
   // collectionView for all apps
   var DashView = Backbone.View.extend({
-    id: 'dash-view',
+    // id: 'dash-view',
+
+    className: 'row',
 
     render: function(){
       this.collection.each(function(app){
@@ -111,16 +118,18 @@
   });
 
   // instantiate the apps
-  var jira = new AppType({name: "Jira",       url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
-  var conf = new AppType({name: "Confluence", url: "https://modusoperandi.atlassian.net/wiki/"});
-  var h5   = new AppType({name: "HighFive",   url: "https://modop.highfive.com/"});
-  var hip  = new AppType({name: "HipChat",    url: "https://modop.hipchat.com/home"});
+  var jira   = new AppType({name: "Jira",       url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
+  var conf   = new AppType({name: "Confluence", url: "https://modusoperandi.atlassian.net/wiki/"});
+  var h5     = new AppType({name: "HighFive",   url: "https://modop.highfive.com/"});
+  var hip    = new AppType({name: "HipChat",    url: "https://modop.hipchat.com/home"});
+  var bit    = new AppType({name: "Bitbucket",  url: "https://bitbucket.org/"});
+  var bamboo = new AppType({name: "Bamboo",     url: "http://ec2-174-129-21-217.compute-1.amazonaws.com/allPlans.action"});
 
   // instantiate the collection of apps
-  var appTypes = new AppColl([jira, conf, h5, hip]);
+  var appTypes = new AppColl([jira, conf, h5, hip, bit, bamboo]);
 
   // instantiate the collectionView for the whole dash
   var dashView = new DashView({collection: appTypes})
-  $("#app-container").html(dashView.render().el);
+  $("#dash-view").html(dashView.render().el);
 
 </script>
