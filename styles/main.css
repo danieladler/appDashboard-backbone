@@ -1,15 +1,21 @@
-.app-dash-item {
+#app-container {
+  font-family: "Helvetica";
+}
+
+.app-block-wrapper .app-block {
+  display: block;
   background-color: hsl(0, 0%, 75%);
   margin: 20px;
+  padding: 10px;
   width: 200px;
   height: 200px;
-  list-style-type: none;
 }
 
-.app-dash-item {
-  padding: 10px;
+.app-block-wrapper a.app-block {
+  text-decoration: none;
 }
 
-.app-dash-item .app-name {
+.app-name {
   margin: 0px;
+  text-align: center;
 }

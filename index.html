@@ -14,9 +14,11 @@
 </html>
 
 <script type="text/template" id="app-template">
-  <h2 class="app-name">  <%= name %> </h2>
-  <p class="app-type">   <%= type %> </p>
-  <input class="app-descr" placeholder="add a description">  <%= description %>
+  <a class="app-block" href= <%= url %> >
+    <h2 class="app-name">  <%= name %> </h2>
+    <p class="app-type">   <%= type %> </p>
+    <input class="app-descr" placeholder="add a description">  <%= description %>
+  </a>
 </script>
 
 <script>
@@ -55,17 +57,16 @@
     },
 
     wasChanged: function(model){
-      console.log('model was changed')
-      console.log(model.attributes.description);
+      console.log('model was changed: ', model.attributes.description)
     }
   });
 
   // Views
     // individual app item view
   var AppView = Backbone.View.extend({
-      tagName:   'li',
-
-      className: 'app-dash-item',
+      className: "app-block-wrapper",
+      // TODO: add Foundation grid styling to this class name so that
+      // each app block fits into the grid as it is instantiated
 
       template: _.template($("#app-template").html()),
 
@@ -97,7 +98,7 @@
 
   // collectionView for all apps
   var DashView = Backbone.View.extend({
-    tagName: 'ul',
+    id: 'dash-view',
 
     render: function(){
       this.collection.each(function(app){
@@ -110,12 +111,13 @@
   });
 
   // instantiate the apps
-  var jira = new AppType({name: "Jira", url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
+  var jira = new AppType({name: "Jira",       url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
   var conf = new AppType({name: "Confluence", url: "https://modusoperandi.atlassian.net/wiki/"});
-  var hip  = new AppType({name: "HipChat", url: "https://modop.hipchat.com/home"});
+  var h5   = new AppType({name: "HighFive",   url: "https://modop.highfive.com/"});
+  var hip  = new AppType({name: "HipChat",    url: "https://modop.hipchat.com/home"});
 
   // instantiate the collection of apps
-  var appTypes = new AppColl([jira, conf, hip]);
+  var appTypes = new AppColl([jira, conf, h5, hip]);
 
   // instantiate the collectionView for the whole dash
   var dashView = new DashView({collection: appTypes})
