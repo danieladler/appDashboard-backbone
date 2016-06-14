@@ -20,13 +20,12 @@
 
 <script type="text/template" id="app-template">
   <div class="app-block-content">
-    <a class="app-header" href= <%= url %> >
-      <h2 class="app-name">  <%= name %> </h2>
-      <!-- app image will go here. link to img_url or pull from assets? -->
+    <h2 class="app-name">  <%= name %> </h2>
+    <input class="edit-name" value= <%= name %>>
+    <a class="app-image" href= <%= url %> >
     </a>
     <div class="app-attrs">
-      <p class="app-type">   <%= type %> </p>
-      <input class="app-descr" placeholder="add a description" value= <%= description %> >
+      <p><input class="app-descr app-attr" placeholder="add a description" value= <%= description %> ></p>
     </div>
   </div>
 </script>
@@ -81,12 +80,30 @@
       template: _.template($("#app-template").html()),
 
       events: {
+        'dblclick .app-name' : 'edit',
+        'blur .edit-name'    : 'close',
+        'keypress .edit-name': 'updateName',
         'keypress .app-descr': 'updateDescr'
+      },
+
+      edit: function() {
+        this.$el.addClass('editing');
+      },
+
+      close: function() {
+        this.$el.removeClass('editing');
       },
 
       updateDescr: function(e) {
         if (e.which === 13) {
-          this.model.set('description', e.target.value);
+          var description = e.target.value.toString();
+          this.model.set('description', description);
+        }
+      },
+
+      updateName: function(e) {
+        if (e.which === 13) {
+          this.model.set('name', e.target.value);
         }
       },
 
@@ -102,7 +119,6 @@
 
   // collectionView for all apps
   var DashView = Backbone.View.extend({
-    // id: 'dash-view',
 
     className: 'row',
 
@@ -117,7 +133,7 @@
   });
 
   // instantiate the apps
-  var jira   = new AppType({name: "Jira",       url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa"});
+  var jira   = new AppType({name: "Jira",       url: "http://modusoperandi.atlassian.net/secure/Dashboard.jspa", type: "Productivity"});
   var conf   = new AppType({name: "Confluence", url: "https://modusoperandi.atlassian.net/wiki/"});
   var h5     = new AppType({name: "HighFive",   url: "https://modop.highfive.com/"});
   var hip    = new AppType({name: "HipChat",    url: "https://modop.hipchat.com/home"});
