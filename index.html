@@ -12,18 +12,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.css">
     <link rel="stylesheet" type="text/css" href="./styles/main.css">
     <div id="app-container">
-      <header><h1>ModOp App Dashboard</h1><header>
+      <header><h1>ModOp App Dashboard</h1></header>
       <div id="dash-view"></div>
     </div>
   </body>
 </html>
 
 <script type="text/template" id="app-template">
-  <a class="app-block" href= <%= url %> >
-    <h2 class="app-name">  <%= name %> </h2>
-    <p class="app-type">   <%= type %> </p>
-    <input class="app-descr" placeholder="add a description">  <%= description %>
-  </a>
+  <div class="app-block-content">
+    <a class="app-header" href= <%= url %> >
+      <h2 class="app-name">  <%= name %> </h2>
+      <!-- app image will go here. link to img_url or pull from assets? -->
+    </a>
+    <div class="app-attrs">
+      <p class="app-type">   <%= type %> </p>
+      <input class="app-descr" placeholder="add a description" value= <%= description %> >
+    </div>
+  </div>
 </script>
 
 <script>
@@ -62,7 +67,7 @@
     },
 
     wasChanged: function(model){
-      console.log('model was changed: ', model.attributes.description)
+      console.log(model.isValid(), model.attributes.description);
     }
   });
 
@@ -76,23 +81,17 @@
       template: _.template($("#app-template").html()),
 
       events: {
-        'click .app-descr': 'showAlert'
-
-        // TODO: add event listeners for interactions with individual apps
-        // click on div
-        // populate <input />
-        // select from dropdown
-
-        //NB: add functions below for these events as well!
+        'keypress .app-descr': 'updateDescr'
       },
 
-      // TODO: comment this initialize back in when working on events
-      // initialize: function() {
-      //   this.listenTo(this.model, 'change', this.render);
-      // },
+      updateDescr: function(e) {
+        if (e.which === 13) {
+          this.model.set('description', e.target.value);
+        }
+      },
 
-      showAlert: function() {
-        alert("description was clicked");
+      initialize: function() {
+        this.listenTo(this.model, 'change', this.render);
       },
 
       render: function() {
