@@ -8,14 +8,12 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
     <script src="./js/lib/underscore.js"></script>
     <script src="./js/lib/backbone.js"></script>
-    <div id="app-container">here</div>
+    <div id="app-container"></div>
   </body>
 </html>
 
 <script type="text/template" id="app-template">
-  <div>
-    <h1> AppName: <%= name %> </h1>
-  </div>
+  <h2> <%= name %> </h2>
 </script>
 
 <script>
@@ -56,17 +54,33 @@
 
       events: {
         // TODO: add event listeners for interactions with individual apps
-          // click on div
-          // populate <input />
-          // select from dropdown
+        // click on div
+        // populate <input />
+        // select from dropdown
 
-          //NB: add functions below for these events as well!
+        //NB: add functions below for these events as well!
       },
+
+      // TODO: comment this initialize back in when working on events
+      // initialize: function() {
+      //   this.listenTo(this.model, 'change', this.render);
+      // },
 
       render: function() {
         this.$el.html(this.template(this.model.toJSON()));
         return this;
       },
+  });
+
+  // collectionView for all apps
+  var DashView = Backbone.View.extend({
+    render: function(){
+      var appList = this.collection.models;
+      _.each(appList, function(app) {
+        var appView = new AppView({model: app});
+        this.$el.append(appView.render().el);
+      }, this);
+    },
   });
 
   // instantiate the apps
@@ -77,8 +91,9 @@
   // instantiate the collection of apps
   var appTypes = new AppColl([jira, conf, hip]);
 
-  // instantiate individual view for one appType
-  var jView = new AppView({model: jira, el: "#app-container"});
-  jView.render();
+  // instantiate the collectionView for the whole dash
+  var dashView = new DashView({el: "#app-container", collection: appTypes})
+  dashView.render();
+
 
 </script>
