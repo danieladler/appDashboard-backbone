@@ -16,7 +16,7 @@
 <script type="text/template" id="app-template">
   <h2 class="app-name">  <%= name %> </h2>
   <p class="app-type">   <%= type %> </p>
-  <p class="app-descr">  <%= description %> </p>
+  <input class="app-descr" placeholder="add a description">  <%= description %>
 </script>
 
 <script>
@@ -29,23 +29,35 @@
       description: ""
     },
     // listeners are in initalize
-    initialize: function(){
+    initialize: function() {
       this.on('invalid', function(model, error){
         console.log(error);
       });
     },
+
     // validations
-    validate: function(attrs,opts){
+    validate: function(attrs,opts) {
       if(attrs.name === "" || attrs.url === ""){
         return "This field cannot be blank"
       }
-    }
+    },
   });
+
 
   // Collections
   var AppColl = Backbone.Collection.extend({
     url : '/apps',
-    model: AppType
+
+    model: AppType,
+
+    initialize: function(){
+      this.on('change', this.wasChanged, this);
+    },
+
+    wasChanged: function(model){
+      console.log('model was changed')
+      console.log(model.attributes.description);
+    }
   });
 
   // Views
@@ -58,6 +70,8 @@
       template: _.template($("#app-template").html()),
 
       events: {
+        'click .app-descr': 'showAlert'
+
         // TODO: add event listeners for interactions with individual apps
         // click on div
         // populate <input />
@@ -70,6 +84,10 @@
       // initialize: function() {
       //   this.listenTo(this.model, 'change', this.render);
       // },
+
+      showAlert: function() {
+        alert("description was clicked");
+      },
 
       render: function() {
         this.$el.html(this.template(this.model.toJSON()));
