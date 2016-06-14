@@ -1,16 +1,15 @@
-
-
-.app-div {
+.app-dash-item {
   background-color: hsl(0, 0%, 75%);
   margin: 20px;
   width: 200px;
   height: 200px;
+  list-style-type: none;
 }
 
-.app-div .app-div-content {
+.app-dash-item {
   padding: 10px;
 }
 
-.app-div .app-name {
+.app-dash-item .app-name {
   margin: 0px;
 }

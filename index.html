@@ -14,11 +14,9 @@
 </html>
 
 <script type="text/template" id="app-template">
-  <div class="app-div-content">
-    <h2 class="app-name">  <%= name %> </h2>
-    <p class="app-type">  <%= type %> </p>
-    <p class="app-descr"> <%= description %> </p>
-  </div>
+  <h2 class="app-name">  <%= name %> </h2>
+  <p class="app-type">   <%= type %> </p>
+  <p class="app-descr">  <%= description %> </p>
 </script>
 
 <script>
@@ -32,7 +30,6 @@
     },
     // listeners are in initalize
     initialize: function(){
-      console.log(this.attributes.name, "has been initialized");
       this.on('invalid', function(model, error){
         console.log(error);
       });
@@ -54,7 +51,9 @@
   // Views
     // individual app item view
   var AppView = Backbone.View.extend({
-      className: "app-div",
+      tagName:   'li',
+
+      className: 'app-dash-item',
 
       template: _.template($("#app-template").html()),
 
@@ -80,12 +79,15 @@
 
   // collectionView for all apps
   var DashView = Backbone.View.extend({
+    tagName: 'ul',
+
     render: function(){
-      var appList = this.collection.models;
-      _.each(appList, function(app) {
+      this.collection.each(function(app){
         var appView = new AppView({model: app});
         this.$el.append(appView.render().el);
-      }, this);
+      }, this); // 'this' is the context for this iterator; narrows it from global window to DashView object
+
+      return this;
     },
   });
 
@@ -98,8 +100,7 @@
   var appTypes = new AppColl([jira, conf, hip]);
 
   // instantiate the collectionView for the whole dash
-  var dashView = new DashView({el: "#app-container", collection: appTypes})
-  dashView.render();
-
+  var dashView = new DashView({collection: appTypes})
+  $("#app-container").html(dashView.render().el);
 
 </script>
