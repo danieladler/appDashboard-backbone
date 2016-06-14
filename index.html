@@ -52,6 +52,15 @@
         return "This field cannot be blank"
       }
     },
+
+    updateName: function(e) {
+      this.set('name', e.target.value);
+    },
+
+    updateDescr: function(e) {
+      var description = e.target.value.toString();
+      this.set('description', description);
+    }
   });
 
 
@@ -62,12 +71,14 @@
     model: AppType,
 
     initialize: function(){
-      this.on('change', this.wasChanged, this);
+      // NB: this listener and its method are just for debugging.
+      // this.on('change', this.wasChanged, this);
     },
 
-    wasChanged: function(model){
-      console.log(model.isValid(), model.attributes.description);
-    }
+
+    // wasChanged: function(model){
+    //   // console.log(model.isValid(), model.attributes.description);
+    // }
   });
 
   // Views
@@ -96,14 +107,13 @@
 
       updateDescr: function(e) {
         if (e.which === 13) {
-          var description = e.target.value.toString();
-          this.model.set('description', description);
+          this.model.updateDescr(e);
         }
       },
 
       updateName: function(e) {
         if (e.which === 13) {
-          this.model.set('name', e.target.value);
+          this.model.updateName(e);
         }
       },
 
